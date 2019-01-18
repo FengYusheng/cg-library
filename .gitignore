@@ -1,3 +1,5 @@
 opengl/middleware/glfw-3.2.1/
 opengl/middleware/glad.zip
 opengl/opengl-examples/Debug/
+opengl/opengl-examples/.vs/
+opengl/opengl-examples/opengl-examples/Debug/
