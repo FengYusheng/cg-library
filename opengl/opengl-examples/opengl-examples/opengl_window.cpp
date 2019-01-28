@@ -23,15 +23,39 @@ int main(int argc, char* argv[]) {
 		return -1;
 	}
 
+	/*Window creation hints.*/
+	/*Speicify which client API to create context for.*/
+	glfwWindowHint(GLFW_CLIENT_API, GLFW_OPENGL_API);
+
+	/*
+	 *Specify which context API to use to create context,
+	 *GLFW_EGL_CONTEXT_API or GLFW_NATIVE_CONTEXT_API.
+	 */
+	glfwWindowHint(GLFW_CONTEXT_CREATION_API, GLFW_NATIVE_CONTEXT_API);
+
+	glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GLFW_TRUE);
+
+	/*
+	 *These two constrants aren't hard. Creation will fail if your OpenGL version of the created context 
+	 *is less than the one requested.
+	 */
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 5);
+
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-	GLFWwindow* window = glfwCreateWindow(800, 600, "An OpenGL Context Window", NULL, NULL);
+
+	/*
+	* This is function creates a window and its associated OpenGL or OpenGL ES context. The options 
+	* controlling how the context should be created are specified by window hints.
+	*/
+	GLFWwindow* window = glfwCreateWindow(1024, 768, "An OpenGL Context Window", NULL, NULL);
 	if (NULL == window) {
 		std::cout << "Failed to create a glfw window." << std::endl;
 		glfwTerminate();
 	}
 
+	/*Make the context of the specified window current on the calling thread.*/
+	glfwMakeContextCurrent(window);
 	glfwTerminate();
 	return 0;
 }
