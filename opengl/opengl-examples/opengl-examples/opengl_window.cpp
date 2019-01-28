@@ -13,7 +13,7 @@ int main(int argc, char* argv[]) {
 	int minor = -1;
 	int rev = -1;
 	glfwGetVersion(&major, &minor, &rev);
-	printf("GLFW Version: %d, %d, %d\n", major, minor, rev);
+	printf("GLFW Version: %d.%d.%d\n", major, minor, rev);
 
 	/*If glfwInit fails, it calls glfwTerminate before returning. 
 	 *If it succeeds, you should call glfwTerminate before the application exists.
@@ -52,10 +52,29 @@ int main(int argc, char* argv[]) {
 	if (NULL == window) {
 		std::cout << "Failed to create a glfw window." << std::endl;
 		glfwTerminate();
+		return -1;
 	}
 
 	/*Make the context of the specified window current on the calling thread.*/
 	glfwMakeContextCurrent(window);
+
+	/*Initialize GLAD to load all OpenGL functions into your OpenGL context.*/
+	/*It's recommended to use the loading function provided by your context creation framework.*/
+	if (gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
+		std::cout << "Load OpenGL functions using glfwGetProcAddress." << std::endl;
+		printf("The OpenGL version loaded actually is %d.%d\n", GLVersion.major, GLVersion.minor);
+	}
+	else if (gladLoadGL()) {
+		std::cout << "Load OpenGL functions using builtin loader." << std::endl;
+		printf("The OpenGL version loaded actually is %d.%d\n", GLVersion.major, GLVersion.minor);
+	}
+	else {
+		std::cout << "Failed to initialize GLAD." << std::endl;
+		glfwTerminate();
+		return -1;
+	}
+	
+
 	glfwTerminate();
 	return 0;
 }

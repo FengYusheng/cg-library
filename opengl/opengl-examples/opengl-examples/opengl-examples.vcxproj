@@ -72,7 +72,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <IncludePath>$(SolutionDir)..\middleware\includes;$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)..\middleware\libs;$(LibraryPath)</LibraryPath>
-    <SourcePath>$(SolutionDir)\..\middleware\src;$(SourcePath)</SourcePath>
+    <SourcePath>$(SourcePath)</SourcePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <IncludePath>$(SolutionDir)..\middleware\includes;$(IncludePath)</IncludePath>
@@ -130,6 +130,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\middleware\src\glad.c" />
     <ClCompile Include="opengl_window.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
