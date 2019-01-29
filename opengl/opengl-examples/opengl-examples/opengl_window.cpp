@@ -7,6 +7,11 @@
 #include<GLFW/glfw3.h>
 
 
+void framebuffer_size_callback(GLFWwindow* window, int width, int height) {
+	glViewport(0, 0, width, height);
+}
+
+
 int main(int argc, char* argv[]) {
 	/*GLFW Version*/
 	int major = -1;
@@ -77,10 +82,11 @@ int main(int argc, char* argv[]) {
 	/*
 	* The mapping between the normalized coordinate and window coordinate is :
 	* x(w) = x + witdth/2 + x(nd)*witdth/2 
-	* y(w) = y + height/2 + y(nd)*height/2 
-	* 
+	* y(w) = y + height/2 + y(nd)*height/2  
 	*/
-	glViewport(0, 0, 1024, 768);
+	// glViewport(0, 0, 1024, 768);
+	glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
+
 	glfwTerminate();
 	return 0;
 }
