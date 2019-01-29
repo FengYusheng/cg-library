@@ -88,6 +88,12 @@ int main(int argc, char* argv[]) {
 	*/
 	glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
 
+	/*Render Loop*/
+	while (!glfwWindowShouldClose(window)) {
+		glfwSwapBuffers(window);
+		glfwPollEvents();
+	}
+
 	glfwTerminate();
 	return 0;
 }
