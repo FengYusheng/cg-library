@@ -111,6 +111,11 @@ int main(int argc, char* argv[]) {
 	/*Each iteration of render loop produces a frame.*/
 	while (!glfwWindowShouldClose(window)) {
 		processInput(window);
+
+		/*rendering commands*/
+		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+		glClear(GL_COLOR_BUFFER_BIT);
+
 		glfwSwapBuffers(window);
 		glfwPollEvents();
 	}
