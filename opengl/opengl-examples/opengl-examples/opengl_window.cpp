@@ -14,7 +14,9 @@ void framebuffer_size_callback(GLFWwindow* window, int width, int height) {
 
 
 void processInput(GLFWwindow* window) {
-
+	if (GLFW_PRESS == glfwGetKey(window, GLFW_KEY_ESCAPE)) {
+		glfwSetWindowShouldClose(window, GLFW_TRUE);
+	}
 }
 
 
