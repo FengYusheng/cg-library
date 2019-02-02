@@ -1,14 +1,20 @@
 #include<iostream>
 
 /*
-* You must include glad.h before glfw3.h in that glad.h can promise include the correct version of OpenGL header files.
-*/
+ * You must include glad.h before glfw3.h in that glad.h can promise include the correct version of OpenGL
+ * header files.
+ */
 #include<glad/glad.h>
 #include<GLFW/glfw3.h>
 
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height) {
 	glViewport(0, 0, width, height);
+}
+
+
+void processInput(GLFWwindow* window) {
+
 }
 
 
@@ -50,9 +56,9 @@ int main(int argc, char* argv[]) {
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
 	/*
-	* This is function creates a window and its associated OpenGL or OpenGL ES context. The options 
-	* controlling how the context should be created are specified by window hints.
-	*/
+	 * This is function creates a window and its associated OpenGL or OpenGL ES context. The options 
+	 * controlling how the context should be created are specified by window hints.
+	 */
 	GLFWwindow* window = glfwCreateWindow(1024, 768, "An OpenGL Context Window", NULL, NULL);
 	if (NULL == window) {
 		std::cout << "Failed to create a glfw window." << std::endl;
@@ -80,16 +86,23 @@ int main(int argc, char* argv[]) {
 	}
 	
 	/*
-	* The mapping between the normalized coordinate and window coordinate is :
-	* x(w) = x + witdth/2 + x(nd)*witdth/2 
-	* y(w) = y + height/2 + y(nd)*height/2 
-	* glViewport(0, 0, 1024, 768);
-	* glfwSetFramebufferSizeCallback VS glfwSetWindowSizeCallback
-	*/
+	 * The mapping between the normalized coordinate and window coordinate is :
+	 * x(w) = x + witdth/2 + x(nd)*witdth/2 
+	 * y(w) = y + height/2 + y(nd)*height/2 
+	 * glViewport(0, 0, 1024, 768);
+	 * glfwSetFramebufferSizeCallback VS glfwSetWindowSizeCallback
+	 */
+
+	/*glfwSetWindowSizeCallback(window, framebuffer_size_callback);*/
 	glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
 
-	/*Render Loop*/
+	/*Input Mode*/
+	int sticky_keys = glfwGetInputMode(window, GLFW_STICKY_KEYS);
+	printf("Is current input mode Sticky Keys? %d\n", sticky_keys);
+	
+	/*Each iteration of render loop produces a frame.*/
 	while (!glfwWindowShouldClose(window)) {
+		processInput(window);
 		glfwSwapBuffers(window);
 		glfwPollEvents();
 	}
