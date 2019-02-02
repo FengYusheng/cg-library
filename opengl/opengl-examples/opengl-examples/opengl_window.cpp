@@ -18,6 +18,13 @@ void processInput(GLFWwindow* window) {
 }
 
 
+void inputMode(GLFWwindow* window) {
+	printf("Is current input mode Sticky Keys? %x\n", glfwGetInputMode(window, GLFW_STICKY_KEYS));
+	printf("Current cursor input mode is %x\n", glfwGetInputMode(window, GLFW_CURSOR));
+	printf("Is current sticky mouse button input mode? %x\n", glfwGetInputMode(window, GLFW_STICKY_MOUSE_BUTTONS));
+}
+
+
 int main(int argc, char* argv[]) {
 	/*GLFW Version*/
 	int major = -1;
@@ -97,8 +104,7 @@ int main(int argc, char* argv[]) {
 	glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
 
 	/*Input Mode*/
-	int sticky_keys = glfwGetInputMode(window, GLFW_STICKY_KEYS);
-	printf("Is current input mode Sticky Keys? %d\n", sticky_keys);
+	inputMode(window);
 	
 	/*Each iteration of render loop produces a frame.*/
 	while (!glfwWindowShouldClose(window)) {
