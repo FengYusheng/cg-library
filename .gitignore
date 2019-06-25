@@ -1,4 +1,5 @@
 Debug/
 x64/
-.vs/
+.vs/opengl/middleware/
+opengl/opengl-examples/.vs/
 opengl/middleware/
