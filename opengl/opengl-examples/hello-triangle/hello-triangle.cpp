@@ -3,6 +3,10 @@
 
 #include <iostream>
 
+// settings
+const unsigned int SCR_WIDTH = 1366;
+const unsigned int SCR_HEIGHT = 768;
+
 int main(int argc, char* argv[])
 {
 	/**
@@ -19,6 +23,7 @@ int main(int argc, char* argv[])
 	if (!glfwInit())
 	{
 		std::cout << "glfwInit failed!" << std::endl;
+		return -1;
 	}
 
 	/*Set hints for window creation.
@@ -29,15 +34,27 @@ int main(int argc, char* argv[])
 
 	/*Opengl context related hints*/
 	glfwWindowHint(GLFW_CLIENT_API, GLFW_OPENGL_API);
-	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 	glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GLFW_TRUE);
 	glfwWindowHint(GLFW_CONTEXT_CREATION_API, GLFW_NATIVE_CONTEXT_API);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 5);
+	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+
+	/*Framebuffer related buffer*/
+	glfwWindowHint(GLFW_DOUBLEBUFFER, GLFW_TRUE);
 
 	/*Window related hints*/
 
-	glfwTerminate();
+	/*OpenGL context creation*/
+	GLFWwindow* window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, "Hello Triangle", NULL, NULL);
+	if (NULL == window)
+	{
+		std::cout << "GLFW window creation failed!" << std::endl;
+		glfwTerminate();
+		return -1;
+	}
 
-	system("pause");
+	glfwTerminate();
 	
 	return 0;
 }
