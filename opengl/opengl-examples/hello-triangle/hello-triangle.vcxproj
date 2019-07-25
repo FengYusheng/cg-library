@@ -124,6 +124,9 @@
     <ClCompile Include="..\..\middleware\src\glad.c" />
     <ClCompile Include="hello-triangle.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="shaders.h" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
