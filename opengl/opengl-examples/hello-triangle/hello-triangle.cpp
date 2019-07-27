@@ -1,6 +1,7 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
+#include <cstring>
 #include <iostream>
 
 #include "shaders.h"
@@ -86,7 +87,45 @@ int main(int argc, char* argv[])
 	printf("The renderer of current OpenGL context is %s\n", glGetString(GL_RENDERER));
 	printf("Then shading language version of current OpenGL context is %s\n", glGetString(GL_SHADING_LANGUAGE_VERSION));
 
+	/*Build and Compile shader programs.*/
+	/*-----------------------------------*/
+	/*vertex shader*/
+	int vertexShader = glCreateShader(GL_VERTEX_SHADER);
+	glShaderSource(vertexShader, 1, &vertexShaderSource, NULL);
+	glCompileShader(vertexShader);
+	/*Check for vertex shader compilation status.*/
+	int success = GL_FALSE;
+	glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &success);
 
+	char infoLog[512] = { '\0' };
+	glGetShaderInfoLog(vertexShader, 512, NULL, infoLog);
+
+	if (!success)
+	{
+		std::cout << "Vertex shader compilation status: " << success << std::endl;
+		std::cout << "Error::Shader::Vertex::Compilation Failed: \n" << infoLog << std::endl;
+
+	}
+
+	/*fragment shader*/
+	int fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
+	glShaderSource(fragmentShader, 1, &fragmentShaderSource, NULL);
+	glCompileShader(fragmentShader);
+
+	/*Check for fragment shader compilation status.*/
+	success = GL_FALSE;
+	glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &success);
+
+	std::memset(infoLog, 0, sizeof(infoLog));
+	glGetShaderInfoLog(fragmentShader, 512, NULL, infoLog);
+
+	if (!success)
+	{
+		std::cout << "Fragment shader compilation status: " << success << std::endl;
+		std::cout << "Error::Shader::Fragment::Compilation Failed: \n" << infoLog << std::endl;
+	}
+
+	/*render loop*/
 
 	//system("pause");
 	glfwTerminate();
