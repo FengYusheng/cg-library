@@ -11,6 +11,7 @@ const unsigned int SCR_WIDTH = 1366;
 const unsigned int SCR_HEIGHT = 768;
 
 void framebuffer_size_callback(GLFWwindow*, int, int);
+void processInput(GLFWwindow* window);
 
 int main(int argc, char* argv[])
 {
@@ -87,7 +88,7 @@ int main(int argc, char* argv[])
 	printf("The renderer of current OpenGL context is %s\n", glGetString(GL_RENDERER));
 	printf("Then shading language version of current OpenGL context is %s\n", glGetString(GL_SHADING_LANGUAGE_VERSION));
 
-	/*Build and Compile shader programs.*/
+	/*Build and compile shader programs.*/
 	/*-----------------------------------*/
 	/*vertex shader*/
 	int vertexShader = glCreateShader(GL_VERTEX_SHADER);
@@ -112,7 +113,7 @@ int main(int argc, char* argv[])
 	glShaderSource(fragmentShader, 1, &fragmentShaderSource, NULL);
 	glCompileShader(fragmentShader);
 
-	/*Check for fragment shader compilation status.*/
+	/*Check fragment shader compilation status.*/
 	success = GL_FALSE;
 	glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &success);
 
@@ -125,7 +126,31 @@ int main(int argc, char* argv[])
 		std::cout << "Error::Shader::Fragment::Compilation Failed: \n" << infoLog << std::endl;
 	}
 
+	/*Link shaders.*/
+	int shaderProgram = glCreateProgram();
+	glAttachShader(shaderProgram, vertexShader);
+	glAttachShader(shaderProgram, fragmentShader);
+	glLinkProgram(shaderProgram);
+
+	/*Check link status.*/
+
+
 	/*render loop*/
+	while (!glfwWindowShouldClose(window))
+	{
+		processInput(window);
+
+		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+		glClear(GL_COLOR_BUFFER_BIT);
+
+		glfwSwapBuffers(window);
+
+		/*event processing:
+		* https://www.glfw.org/docs/latest/input_guide.html#events
+		*/
+		glfwPollEvents();
+	}
+	
 
 	//system("pause");
 	glfwTerminate();
@@ -136,4 +161,13 @@ int main(int argc, char* argv[])
 void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 {
 	glViewport(0, 0, width, height);
+}
+
+void processInput(GLFWwindow *window)
+{
+	/* https://www.glfw.org/docs/latest/window_guide.html#window_close */
+	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
+	{
+		glfwSetWindowShouldClose(window, true);
+	}
 }
