@@ -133,7 +133,21 @@ int main(int argc, char* argv[])
 	glLinkProgram(shaderProgram);
 
 	/*Check link status.*/
+	success = GL_FALSE;
+	std::memset(infoLog, 0, sizeof(infoLog));
+	glGetProgramiv(shaderProgram, GL_LINK_STATUS, &success);
+	if (!success)
+	{
+		std::cout << "Program link status is " << success << std::endl;
+		glGetProgramInfoLog(shaderProgram, sizeof(infoLog), NULL, infoLog);
+		std::cout << "Error::Shader Programe::Link Failed: \n" << infoLog << std::endl;
+	}
 
+	/*Delete shader objects
+	*these shader objects are flagged for deletion. They won't be deleted until they aren't attached to any program object.
+	*/
+	glDeleteShader(vertexShader);
+	glDeleteShader(fragmentShader);
 
 	/*render loop*/
 	while (!glfwWindowShouldClose(window))
@@ -151,8 +165,6 @@ int main(int argc, char* argv[])
 		glfwPollEvents();
 	}
 	
-
-	//system("pause");
 	glfwTerminate();
 	
 	return 0;
