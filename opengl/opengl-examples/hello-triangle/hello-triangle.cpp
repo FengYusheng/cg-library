@@ -149,6 +149,20 @@ int main(int argc, char* argv[])
 	glDeleteShader(vertexShader);
 	glDeleteShader(fragmentShader);
 
+	/*The vertex shader is the first stage of OpenGL rendering pipeline. We need to specify its input manually*/
+	/*We want to draw a triangle, so we specify three vertices' poisiton.*/
+	float vertices[] = {
+		-0.5f, -0.5f, 0.0f, //left
+		0.5f, -0.5f, 0.0f, //right
+		0.0f, 0.5f, 0.0f, //top
+	};
+
+	/*Generate a buffer in GPU's memory. We send the vertex data into this buffer.
+	* We usually call this buffer VBO, vertex buffer object.
+	*/
+
+
+
 	/*render loop*/
 	while (!glfwWindowShouldClose(window))
 	{
