@@ -157,11 +157,18 @@ int main(int argc, char* argv[])
 		0.0f, 0.5f, 0.0f, //top
 	};
 
-	/*Generate a buffer in GPU's memory. We send the vertex data into this buffer.
-	* We usually call this buffer VBO, vertex buffer object.
+	/*The buffer in OpengGl refers to a piece of memory in GPU. There are various kinds of buffer in OpenGL and we can send data into these
+	* buffers. OpenGL shader pipeline can access these data from buffers. We can send vertex data (AKA vertex attributes) into a buffer as 
+	* the vertx shader input. We often call this kind of buffer used to store vertex attributes as VBO, vertex buffer object.
 	*/
 
-
+	/*Generate a buffer name. The name is just an integer. Bind an actual buffer object to this name.
+	* Then we can access this buffer object via this buffer name.
+	*/
+	unsigned int VBO;
+	glGenBuffers(1, &VBO);
+	/*GL_ARRAY_BUFFER indicates this buffer object is used to store vertex attributes for vertex shader.*/
+	glBindBuffer(GL_ARRAY_BUFFER, VBO);
 
 	/*render loop*/
 	while (!glfwWindowShouldClose(window))
@@ -179,6 +186,7 @@ int main(int argc, char* argv[])
 		glfwPollEvents();
 	}
 	
+	glDeleteBuffers(1, &VBO);
 	glfwTerminate();
 	
 	return 0;

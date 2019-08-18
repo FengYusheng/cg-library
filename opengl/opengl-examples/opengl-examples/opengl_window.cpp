@@ -8,6 +8,11 @@
 #include<GLFW/glfw3.h>
 
 
+/*
+* https://stackoverflow.com/questions/56633680/how-can-i-fix-cl-exe-exited-with-code-2
+* https://stackoverflow.com/questions/13948990/error-msb6006-cl-exe-exited-with-code-2
+*/
+
 void framebuffer_size_callback(GLFWwindow* window, int width, int height) {
 	glViewport(0, 0, width, height);
 }
