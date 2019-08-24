@@ -169,6 +169,26 @@ int main(int argc, char* argv[])
 	glGenBuffers(1, &VBO);
 	/*GL_ARRAY_BUFFER indicates this buffer object is used to store vertex attributes for vertex shader.*/
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
+	/*Link vertex attributes. We want to modify "position" vertex attribute now.
+	* 0 This parameter specifies which vertex attribute we want to modfiy. We have set "position" vertex attribute to 0 in vertex shader.
+	*	We want to modify "position" vertex attribute so we assign 0 to this parameter.
+	* 
+	* 3 This parameter specifes how many components this attribute has. We assgin 3 to it since "posisiton" vertex attribute has 3 
+	* components, x, y, z.
+	*
+	* GL_FLOAT This parameter specifies the data type of each vertex attribute component.
+	*
+	* GL_FALSE This parameter specifies if the data values should be normalized. We set it to false since the values are between -1 and 1.
+	*
+	* 3*sizeof(GL_FLOAT) This parameter specifies the offset between two vertex attributes. We set it to 3*sizeof(GL_FLOAT) since the second 
+	* position vertex attribtue is 3*sizeof(GL_FLOAT) away from the first one in our vertex shader input.
+	*
+	* (void*)0 This parameter speicifies where the first position vertex attribute starts in the buffer object. There are just position data
+	* in the buffer now. So we assign 0 to it.
+	*/
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GL_FLOAT), (void*)0);
+	/*Our vertex shader processes position vertex atrritube for now. Enable position vertex attribute.*/
+	glEnableVertexAttribArray(0);
 
 	/*render loop*/
 	while (!glfwWindowShouldClose(window))
