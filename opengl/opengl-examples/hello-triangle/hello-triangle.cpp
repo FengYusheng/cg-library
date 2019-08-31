@@ -157,21 +157,33 @@ int main(int argc, char* argv[])
 		0.0f, 0.5f, 0.0f, //top
 	};
 
-	/*The buffer in OpengGl refers to a piece of memory in GPU. There are various kinds of buffer in OpenGL and we can send data into these
-	* buffers. OpenGL shader pipeline can access these data from buffers. We can send vertex data (AKA vertex attributes) into a buffer as 
-	* the vertx shader input. We often call this kind of buffer used to store vertex attributes as VBO, vertex buffer object.
-	*/
 
-	/*Generate a buffer name. The name is just an integer. Bind an actual buffer object to this name.
+	/*Use VAO to store vertex attributes.
+	* A VAO is used to store the following:
+	* 1. Calls to glEnableVertexAttribArray or glDisableVertexAttribArray.
+	* 2. Vertex attribute configurations via glVertexAttribPointer.
+	* 3. Vertex buffer objects associated with vertex attributes by calls to glVertexAttribPointer.
+	*/
+	unsigned int VAO;
+	glGenVertexArrays(1, &VAO);
+	glBindVertexArray(VAO);
+	/*From now on, the following calls are stored in this VAO.*/
+
+
+	/* 3. Vertex buffer objects associated with vertex attributes by calls to glVertexAttribPointer.
+	* Generate a buffer name. The name is just an integer. Bind an actual buffer object to this name.
 	* Then we can access this buffer object via this buffer name.
 	*/
 	unsigned int VBO;
 	glGenBuffers(1, &VBO);
 	/*GL_ARRAY_BUFFER indicates this buffer object is used to store vertex attributes for vertex shader.*/
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
-	/*Link vertex attributes. We want to modify "position" vertex attribute now.
+	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+
+	/* 2. Vertex attribute configurations via glVertexAttribPointer.
+	* Link vertex attributes. We want to modify "position" vertex attribute now.
 	* 0 This parameter specifies which vertex attribute we want to modfiy. We have set "position" vertex attribute to 0 in vertex shader.
-	*	We want to modify "position" vertex attribute so we assign 0 to this parameter.
+	* We want to modify "position" vertex attribute so we assign 0 to this parameter.
 	* 
 	* 3 This parameter specifes how many components this attribute has. We assgin 3 to it since "posisiton" vertex attribute has 3 
 	* components, x, y, z.
@@ -186,9 +198,27 @@ int main(int argc, char* argv[])
 	* (void*)0 This parameter speicifies where the first position vertex attribute starts in the buffer object. There are just position data
 	* in the buffer now. So we assign 0 to it.
 	*/
+
+	/*The buffer in OpengGl refers to a piece of memory in GPU. There are various kinds of buffer in OpenGL and we can send data into these
+	* buffers. OpenGL shader pipeline can access these data from buffers. We can send vertex data (AKA vertex attributes) into a buffer as
+	* the vertx shader input. We often call this kind of buffer used to store vertex attributes as VBO, vertex buffer object.
+	*/
+
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GL_FLOAT), (void*)0);
-	/*Our vertex shader processes position vertex atrritube for now. Enable position vertex attribute.*/
+	
+	/* 1. Calls to glEnableVertexAttribArray or glDisableVertexAttribArray.
+	* Our vertex shader processes position vertex atrritube for now. Enable position vertex attribute. 
+	* Its location is 0.
+	*/
 	glEnableVertexAttribArray(0);
+
+	/*Unbind VBO and VAO to finish saving these calls.*/
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	glBindVertexArray(0);
+
+	/* Bind means you start to save contents in the buffer object.
+	*  Unbind means you finish saving contents.
+	*/
 
 	/*render loop*/
 	while (!glfwWindowShouldClose(window))
@@ -197,6 +227,16 @@ int main(int argc, char* argv[])
 
 		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
+
+		/*Draw the triangle.*/
+		/*Specify which shader program we need to call to draw the triangle.*/
+		glUseProgram(shaderProgram);
+		/*Access the configuration in VAO.*/
+		glBindVertexArray(VAO);
+		/*Draw it accroding these configuration.*/
+		glDrawArrays(GL_TRIANGLES, 0, 3);
+		/*Unbind the VAO when you don't need to access it.*/
+		glBindVertexArray(0);
 
 		glfwSwapBuffers(window);
 
