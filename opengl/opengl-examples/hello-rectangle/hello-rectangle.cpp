@@ -153,7 +153,7 @@ int main(int argc, char* argv[]) {
 	glGenVertexArrays(1, &VAO);
 
 	/*Load vertex attributes to vertex shaders*/
-	glBindVertexArray(VAO);
+	glBindVertexArray(VAO); // VAO is a configuration object.
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
